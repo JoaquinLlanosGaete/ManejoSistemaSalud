@@ -52,4 +52,7 @@ public class Cama{
   public void asignarPaciente(String rut){
         rutPacienteAsignado = rut;
     }
+  public void asignarPaciente(Paciente paciente){
+      rutPacienteAsignado = paciente.getRut();
+  }
 }

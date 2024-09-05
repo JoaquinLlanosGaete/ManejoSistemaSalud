@@ -11,30 +11,29 @@ package com.mycompany.manejosistemasalud;
 import java.io.*;
 import java.util.Scanner;
 
-public class ManejoSistemaSalud {
-    @SuppressWarnings("empty-statement")
+public class ManejoSistemaSalud{
     public static void main(String[] args)throws IOException {
         Scanner scanner = new Scanner(System.in);
         String nombreHospital;
-        System.out.println("Por favor ingrese el nombre del hospital: ");
+        System.out.println("Ingrese el nombre del hospital: ");
         nombreHospital = scanner.nextLine();
-        Hospital hospital = new Hospital(nombreHospital);
-        byte opcion;
+        Hospital hospital = new Hospital(nombreHospital); 
+        hospital.inicializarCamas();
+        hospital.inicializarPacientesConAtencionesMedicas();
+        int opcion;
         do{
             mostrarMenu();
             System.out.println("Seleccione una opcion: ");
-            opcion = scanner.nextByte();
-            scanner.nextLine();
+            opcion = Integer.parseInt(scanner.nextLine());
 
             switch(opcion){
                 case 1:
+                    int subOpcion;
                     do{
                         menuPacientes();
                         System.out.println("Seleccione una opcion: ");
-                        opcion = scanner.nextByte();
-                        scanner.nextLine();
-
-                        switch(opcion){
+                        subOpcion = Integer.parseInt(scanner.nextLine());                                             
+                        switch(subOpcion){
                             case 1:
                                 String nombre;
                                 String rut;
@@ -63,6 +62,7 @@ public class ManejoSistemaSalud {
                                 Paciente paciente = new Paciente(nombre,rut,edad,nivelGravedad);
                                 hospital.agregarPaciente(rut, paciente);
                                 System.out.println("El paciente fue registrado con exito");
+                                hospital.ubicarPacienteEnCama(paciente);                               
                                 break;
                             case 2:
                                 System.out.println("Ingrese el rut del paciente");
@@ -104,15 +104,16 @@ public class ManejoSistemaSalud {
                             default:
                                 System.out.println("Opcion no valida");
                         }
-                    }while(opcion!=5);
+                    }while(subOpcion!=5);
                     break;
                 case 2:
+                    int subOpci0n;
                     do{
                     menuCamas();
                     System.out.println("Seleccione una opcion");
-                    opcion = scanner.nextByte();
+                    subOpci0n = Integer.parseInt(scanner.nextLine());
                     scanner.nextLine();
-                    switch(opcion){
+                    switch(subOpci0n){
                         case 1:
                             String rut;
                             int gravedad;
@@ -202,15 +203,15 @@ public class ManejoSistemaSalud {
                         default:
                                 System.out.println("Opcion no valida");
                         }
-                    }while(opcion!=5); 
+                    }while(subOpci0n!=5); 
                     break;
                 case 3:
+                    int option;
                     do{
                         menuMedicos();
                         System.out.println("Seleccione una opcion");
-                        opcion = scanner.nextByte();
-                        scanner.nextLine();
-                        switch(opcion){
+                        option = Integer.parseInt(scanner.nextLine());
+                        switch(option){
                             case 1:
                                 String rut;
                                 String nombre;
@@ -246,15 +247,15 @@ public class ManejoSistemaSalud {
                             default:
                                 System.out.println("Opcion no valida");                               
                         }
-                    }while(opcion!=3);
+                    }while(option!=3);
                     break;
                 case 4:
+                    int opti0n;
                     do{
                         menuMostrar();
                         System.out.println("Seleccione una opcion");
-                        opcion = scanner.nextByte();
-                        scanner.nextLine();
-                        switch(opcion){
+                        opti0n = Integer.parseInt(scanner.nextLine());
+                        switch(opti0n){
                             case 1:
                                 int dia;
                                 int mes;
@@ -271,7 +272,7 @@ public class ManejoSistemaSalud {
                                     System.out.println("Ingrese anio de la atencion medica");
                                     anio = Integer.parseInt(scanner.nextLine());
                                     String fecha = String.format("%02d/02d/%04d", dia,mes,anio);
-                                    if(hospital.existeAtencionMedica(rut, fecha)){
+                                    if(!hospital.existeAtencionMedica(rut, fecha)){
                                         atencion = hospital.getAtencionMedica(rut, fecha);
                                         System.out.println("Atencion medica de paciente:");
                                         System.out.println("Rut: "+rut);
@@ -292,11 +293,20 @@ public class ManejoSistemaSalud {
                                 System.out.println("El paciente no esta registrado");
                                 break;
                             case 3:
+                                System.out.println("Ingrese el rut del paciente: ");
+                                rut = scanner.nextLine();
+                                if(hospital.existePaciente(rut)){
+                                    hospital.mostrarPacientes(rut);
+                                    break;
+                                }
+                                System.out.println("El paciente no esta registrado");
+                                break;
+                            case 4:
                                 break;
                             default:
                                 System.out.println("Opcion no valida"); 
                         }
-                    }while(opcion!=3);
+                    }while(opti0n!=4);
                     break;
                 case 5:
                     break;
@@ -340,7 +350,8 @@ public class ManejoSistemaSalud {
        System.out.println("------Menu Mostrar en pantalla------");
        System.out.println("1. Mostrar atencion medica");
        System.out.println("2. Mostrar todas las atenciones de paciente");
-       System.out.println("3. Regresar al menu principal");
+       System.out.println("3. Mostrar paciente");
+       System.out.println("4. Regresar al menu principal");
    }
 }
 

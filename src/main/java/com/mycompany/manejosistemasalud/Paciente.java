@@ -56,16 +56,11 @@ public class Paciente {
             }
         return null;
     }
-    public boolean existeAtencion(String fecha){
-        int cantAtenciones = listaAtencionesMedicas.size();
-        for(int i = 0;i<cantAtenciones;i++){
-            if(listaAtencionesMedicas.get(i).getFecha().equals(fecha))
-                return true;
-        }
-        return false;
-    }
     public int getCantAtenciones(){
         return listaAtencionesMedicas.size();
+    }
+    public List<AtencionMedica> getAtencionesMedicas() {
+        return listaAtencionesMedicas;
     }
     //SETTERS
     public void setNombre(String nombre){
@@ -82,10 +77,18 @@ public class Paciente {
     }
     //METODOS
     public void agregarAtencionMedica(String fecha, String diagnostico){
-        AtencionMedica atencion = new AtencionMedica(fecha,diagnostico);
         if(this.listaAtencionesMedicas == null){
             this.listaAtencionesMedicas = new ArrayList<>();
         }
-        listaAtencionesMedicas.add(atencion);
+        this.listaAtencionesMedicas.add(new AtencionMedica(fecha,diagnostico));
+    }
+    public boolean existeAtencion(String fecha){
+        int cantAtenciones = listaAtencionesMedicas.size();
+        for(int i = 0;i<cantAtenciones;i++){
+            if(listaAtencionesMedicas.get(i).getFecha().equals(fecha))
+                return true;
+        }
+        return false;
     }
 }
+

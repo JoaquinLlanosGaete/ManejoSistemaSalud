@@ -132,7 +132,47 @@ public class Hospital {
              }
          }
     }
-
+    public void ubicarPacienteEnCama(String rut,int gravedad){
+        int cantCamas,i; 
+         if(!mapaPacientes.containsKey(rut)){
+             return;
+         }
+         Paciente paciente = mapaPacientes.get(rut);
+         cantCamas = listaCamas.size();
+         if(gravedad==1){
+             for(i=0;i<cantCamas;i++){
+                 if(listaCamas.get(i).getTipo().equals("general")&&(listaCamas.get(i).getDisponible()==true)){
+                     listaCamas.get(i).asignarPaciente(paciente);
+                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     listaCamas.get(i).setDisponible(false);
+                     return;
+                 }
+             }
+             System.out.println("No hay camas generales disponibles, el paciente se encuentra en lista de espera");
+         } 
+         if(gravedad==2){
+             for(i=0;i<cantCamas;i++){
+                 if(listaCamas.get(i).getTipo().equals("intermedia")&&(listaCamas.get(i).getDisponible()==true)){
+                     listaCamas.get(i).asignarPaciente(paciente);
+                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     listaCamas.get(i).setDisponible(false);
+                     return;
+                 }                
+             }
+             System.out.println("No hay camas intermedias disponibles, el paciente será atendido pronto");
+         }
+         if(gravedad==3){
+             for(i=0;i<cantCamas;i++){
+                 if(listaCamas.get(i).getTipo().equals("intensiva")&&(listaCamas.get(i).getDisponible()==true)){
+                     listaCamas.get(i).asignarPaciente(paciente);
+                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     listaCamas.get(i).setDisponible(false);
+                     return;
+                 }               
+             }
+             System.out.println("No hay camas intensivas disponibles, el paciente tendrá la mayor prioridad");
+         }
+    }        
     public void ubicarPacienteEnCama(Paciente paciente){
          int gravedad,cantCamas,i;
          Paciente pacienteParaUbicar = paciente;
@@ -271,16 +311,60 @@ public class Hospital {
         }
         return null;
     }
+
     public void mostrarAtencionesPaciente(String rut){
-        int cantAtenciones = mapaPacientes.get(rut).getCantAtenciones();
-        if(cantAtenciones > 0){
-            AtencionMedica atencion = mapaPacientes.get(rut).getAtencionMedica(rut);
-            for(int i=0;i<cantAtenciones;i++){
-                System.out.println("Atencion "+i+":");
-                System.out.println("Fecha: "+atencion.getFecha());
-                System.out.println("Diagnostico: "+atencion.getDiagnostico()+"\n");               
-            }
+        Paciente paciente = mapaPacientes.get(rut);
+        if (paciente != null) {
+            int cantAtenciones = paciente.getCantAtenciones();
+            if (cantAtenciones > 0) {
+                List<AtencionMedica> atenciones = paciente.getAtencionesMedicas();
+                for (int i = 0; i < cantAtenciones; i++) {
+                    AtencionMedica atencion = atenciones.get(i);
+                    System.out.println("Atencion " + (i + 1) + ":");
+                    System.out.println("Fecha: " + atencion.getFecha());
+                    System.out.println("Diagnostico: " + atencion.getDiagnostico() + "\n");
+                }
+            } 
+            else 
+                System.out.println("El paciente no tiene atenciones medicas");
+            } 
+        else {
+            System.out.println("Paciente no encontrado");
         }
-        System.out.println("El paciente no tiene atenciones medicas");
+    }
+    public void inicializarCamas() {
+        listaCamas.add(new Cama(1,"general",true));
+        listaCamas.add(new Cama(2,"intensiva",false));
+        listaCamas.add(new Cama(3,"intermedia",false));
+        listaCamas.add(new Cama(4,"general",true));
+        listaCamas.add(new Cama(5,"intermedia",false));
+        listaCamas.add(new Cama(6,"intermedia",true));
+    }
+    public void inicializarPacientesConAtencionesMedicas() {
+        Paciente paciente1 = new Paciente("Carlos", "12345678", 30, 2);      
+        Paciente paciente2 = new Paciente("Maria", "87654321B", 25, 1);
+        Paciente paciente3 = new Paciente("Fernando", "12345673", 30, 2);      
+        Paciente paciente4 = new Paciente("Maria", "87654321a", 25, 1);
+
+        paciente1.agregarAtencionMedica("01/02/2003","resfrio");
+        paciente1.agregarAtencionMedica("02/04/2003","gripe");
+        paciente2.agregarAtencionMedica("01/08/2002","cancer");
+        paciente2.agregarAtencionMedica("02/09/2007","resfrio");
+        paciente3.agregarAtencionMedica("01/10/2008","resfrio");
+        paciente3.agregarAtencionMedica("02/11/2010","gripe");
+        paciente4.agregarAtencionMedica("01/10/2020","dolor de barriga");
+        paciente4.agregarAtencionMedica("02/04/2005","esguince");
+
+        mapaPacientes.put(paciente1.getRut(), paciente1);
+        mapaPacientes.put(paciente2.getRut(), paciente2);
+        mapaPacientes.put(paciente3.getRut(), paciente3);
+        mapaPacientes.put(paciente4.getRut(), paciente4);
+    }
+    public void mostrarPacientes(String rut){
+        System.out.println("Paciente: ");
+        System.out.println("Nombre :"+mapaPacientes.get(rut).getNombre());
+        System.out.println("Rut: "+mapaPacientes.get(rut).getRut());
+        System.out.println("Edad: "+mapaPacientes.get(rut).getEdad());
+        System.out.println("Su nivel de gravedad es: "+mapaPacientes.get(rut).getGravedad());
     }
 }
