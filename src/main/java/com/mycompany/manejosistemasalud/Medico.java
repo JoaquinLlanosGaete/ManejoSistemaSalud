@@ -6,8 +6,9 @@ package com.mycompany.manejosistemasalud;
 
 /**
  *
- * @author joaquin
+ * @author 
  */
+
 public class Medico{
     private String nombre;
     private String rut;

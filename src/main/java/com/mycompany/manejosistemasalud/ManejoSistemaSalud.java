@@ -6,12 +6,12 @@ package com.mycompany.manejosistemasalud;
 
 /**
  *
- * @author joaquin
+ * @author 
  */
 import java.io.*;
 import java.util.Scanner;
 
-public class ManejoSistemaSalud{
+public class ManejoSistemaSalud {
     public static void main(String[] args)throws IOException {
         Scanner scanner = new Scanner(System.in);
         String nombreHospital;
@@ -22,7 +22,7 @@ public class ManejoSistemaSalud{
         hospital.inicializarPacientesConAtencionesMedicas();
         int opcion;
         do{
-            mostrarMenu();
+            mostrarMenu(nombreHospital);
             System.out.println("Seleccione una opcion: ");
             opcion = Integer.parseInt(scanner.nextLine());
 
@@ -158,7 +158,7 @@ public class ManejoSistemaSalud{
                             Cama cama;
                             System.out.println("Ingrese el numero de cama a registrar");
                             numCama = Integer.parseInt(scanner.nextLine());
-                            if(hospital.existeCama(numCama)){
+                            if(!hospital.existeCama(numCama)){
                                 System.out.println("Ingrese el tipo de cama a registrar: ");
                                 System.out.println("1. General");
                                 System.out.println("2. Intermedia");
@@ -185,9 +185,10 @@ public class ManejoSistemaSalud{
                                     hospital.agregarCama(cama);
                                     System.out.println("Registrada correctamente");
                                     break;
-                                }
-
+                                }                                                                                          
                             }
+                            System.out.println("Ya existe una cama registrada con el numero "+numCama);
+                            break;
                         case 4:
                             System.out.println("Ingrese el numero de cama a eliminar");
                             numCama = Integer.parseInt(scanner.nextLine());
@@ -316,8 +317,8 @@ public class ManejoSistemaSalud{
         }while(opcion!=5);        
         System.out.println("Programa finalizado.");
 }
-   public static void mostrarMenu(){
-       System.out.println("------Menu Hospital------");
+   public static void mostrarMenu(String nombreHospital){
+       System.out.println("------Menu Hospital "+nombreHospital+"------");
        System.out.println("1. Menu pacientes");
        System.out.println("2. Menu Camas");
        System.out.println("3. Menu Medicos");

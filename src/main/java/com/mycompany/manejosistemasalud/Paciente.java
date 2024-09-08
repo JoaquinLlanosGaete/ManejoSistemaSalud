@@ -6,10 +6,11 @@ package com.mycompany.manejosistemasalud;
 
 /**
  *
- * @author joaquin
+ * @author 
  */
 import java.util.*;
 import java.util.ArrayList;
+
 public class Paciente {
     private String nombre;
     private String rut;

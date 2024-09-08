@@ -6,7 +6,7 @@ package com.mycompany.manejosistemasalud;
 
 /**
  *
- * @author joaquin
+ * @author 
  */
 public class Cama{
   private int numCama;

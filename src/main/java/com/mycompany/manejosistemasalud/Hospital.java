@@ -6,10 +6,11 @@ package com.mycompany.manejosistemasalud;
 
 /**
  *
- * @author joaquin
+ * @author 
  */
 import java.util.*;
 import java.util.Scanner;
+
 public class Hospital {
     private String nombreHospital;
     private List<Medico> listaMedicos;
@@ -43,6 +44,13 @@ public class Hospital {
     }
     public void setNombreHospital(String nombre){
         nombreHospital = nombre;
+    }
+    public AtencionMedica getAtencionMedica(String rut,String fecha){
+        if(existeAtencionMedica(rut,fecha)){
+            AtencionMedica atencion = mapaPacientes.get(rut).getAtencionMedica(fecha);
+            return atencion;
+        }
+        return null;
     }
     //METODOS
     public void agregarMedico(Medico medico){
@@ -303,15 +311,7 @@ public class Hospital {
                 return true;
         }
         return false;
-    }
-    public AtencionMedica getAtencionMedica(String rut,String fecha){
-        if(existeAtencionMedica(rut,fecha)){
-            AtencionMedica atencion = mapaPacientes.get(rut).getAtencionMedica(fecha);
-            return atencion;
-        }
-        return null;
-    }
-
+    }   
     public void mostrarAtencionesPaciente(String rut){
         Paciente paciente = mapaPacientes.get(rut);
         if (paciente != null) {
