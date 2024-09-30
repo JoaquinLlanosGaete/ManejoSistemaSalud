@@ -10,24 +10,18 @@ package com.mycompany.manejosistemasalud;
  */
 import java.util.*;
 import java.util.Scanner;
-
 public class Hospital {
-    private String nombreHospital;
     private List<Medico> listaMedicos;
     private HashMap<String, Paciente> mapaPacientes;
     private List<Cama> listaCamas;
 
     //CONSTRUCT
-    public Hospital(String nombre){
-        nombreHospital = nombre;
+    public Hospital(){
         listaMedicos = new ArrayList<>();
         mapaPacientes = new HashMap<>();
         listaCamas = new ArrayList<>();
     }
     //GETTER Y SETTER
-    public String getNombreHospital(){
-        return nombreHospital;
-    }
     public Paciente getPaciente(String rut){
         return mapaPacientes.get(rut);
     }
@@ -41,9 +35,6 @@ public class Hospital {
                 return listaCamas.get(i);
         }
         return null;
-    }
-    public void setNombreHospital(String nombre){
-        nombreHospital = nombre;
     }
     public AtencionMedica getAtencionMedica(String rut,String fecha){
         if(existeAtencionMedica(rut,fecha)){
@@ -110,7 +101,7 @@ public class Hospital {
              for(i=0;i<cantCamas;i++){
                  if(listaCamas.get(i).getTipo().equals("general")&&(listaCamas.get(i).getDisponible()==true)){
                      listaCamas.get(i).asignarPaciente(rut);
-                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     System.out.println("El paciente fue asignado en la cama "+listaCamas.get(i).getNumCama());
                      listaCamas.get(i).setDisponible(false);
                      return;
                  }
@@ -121,7 +112,7 @@ public class Hospital {
              for(i=0;i<cantCamas;i++){
                  if(listaCamas.get(i).getTipo().equals("intermedia")&&(listaCamas.get(i).getDisponible()==true)){
                      listaCamas.get(i).asignarPaciente(rut);
-                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     System.out.println("El paciente fue asignado en la cama "+listaCamas.get(i).getNumCama());
                      listaCamas.get(i).setDisponible(false);
                      return;
                  }
@@ -132,7 +123,7 @@ public class Hospital {
              for(i=0;i<cantCamas;i++){
                  if(listaCamas.get(i).getTipo().equals("intensiva")&&(listaCamas.get(i).getDisponible()==true)){
                      listaCamas.get(i).asignarPaciente(rut);
-                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     System.out.println("El paciente fue asignado en la cama "+listaCamas.get(i).getNumCama());
                      listaCamas.get(i).setDisponible(false);
                      return;
                  }
@@ -151,7 +142,7 @@ public class Hospital {
              for(i=0;i<cantCamas;i++){
                  if(listaCamas.get(i).getTipo().equals("general")&&(listaCamas.get(i).getDisponible()==true)){
                      listaCamas.get(i).asignarPaciente(paciente);
-                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     System.out.println("El paciente fue asignado en la cama "+listaCamas.get(i).getNumCama());
                      listaCamas.get(i).setDisponible(false);
                      return;
                  }
@@ -162,7 +153,7 @@ public class Hospital {
              for(i=0;i<cantCamas;i++){
                  if(listaCamas.get(i).getTipo().equals("intermedia")&&(listaCamas.get(i).getDisponible()==true)){
                      listaCamas.get(i).asignarPaciente(paciente);
-                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     System.out.println("El paciente fue asignado en la cama "+listaCamas.get(i).getNumCama());
                      listaCamas.get(i).setDisponible(false);
                      return;
                  }                
@@ -173,7 +164,7 @@ public class Hospital {
              for(i=0;i<cantCamas;i++){
                  if(listaCamas.get(i).getTipo().equals("intensiva")&&(listaCamas.get(i).getDisponible()==true)){
                      listaCamas.get(i).asignarPaciente(paciente);
-                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     System.out.println("El paciente fue asignado en la cama "+listaCamas.get(i).getNumCama());
                      listaCamas.get(i).setDisponible(false);
                      return;
                  }               
@@ -200,7 +191,7 @@ public class Hospital {
              for(i=0;i<cantCamas;i++){
                  if(listaCamas.get(i).getTipo().equals("general")&&(listaCamas.get(i).getDisponible()==true)){
                      listaCamas.get(i).asignarPaciente(pacienteParaUbicar.getRut());
-                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     System.out.println("El paciente fue asignado en la cama "+listaCamas.get(i).getNumCama());
                      listaCamas.get(i).setDisponible(false);
                      return;
                  }
@@ -211,7 +202,7 @@ public class Hospital {
              for(i=0;i<cantCamas;i++){
                  if(listaCamas.get(i).getTipo().equals("intermedia")&&(listaCamas.get(i).getDisponible()==true)){
                      listaCamas.get(i).asignarPaciente(pacienteParaUbicar.getRut());
-                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     System.out.println("El paciente fue asignado en la cama "+listaCamas.get(i).getNumCama());
                      listaCamas.get(i).setDisponible(false);
                      return;
                  }
@@ -222,7 +213,7 @@ public class Hospital {
              for(i=0;i<cantCamas;i++){
                  if(listaCamas.get(i).getTipo().equals("intensiva")&&(listaCamas.get(i).getDisponible()==true)){
                      listaCamas.get(i).asignarPaciente(pacienteParaUbicar.getRut());
-                     System.out.println("El paciente fue asignado en la cama"+listaCamas.get(i).getNumCama());
+                     System.out.println("El paciente fue asignado en la cama "+listaCamas.get(i).getNumCama());
                      listaCamas.get(i).setDisponible(false);
                      return;
                  }
@@ -314,7 +305,11 @@ public class Hospital {
     }   
     public void mostrarAtencionesPaciente(String rut){
         Paciente paciente = mapaPacientes.get(rut);
-        if (paciente != null) {
+        if(paciente == null){
+            System.out.println("El paciente no se encuentra registrado");
+            return;
+        }
+        if (paciente.getAtencionesMedicas() != null) {
             int cantAtenciones = paciente.getCantAtenciones();
             if (cantAtenciones > 0) {
                 List<AtencionMedica> atenciones = paciente.getAtencionesMedicas();
@@ -324,12 +319,30 @@ public class Hospital {
                     System.out.println("Fecha: " + atencion.getFecha());
                     System.out.println("Diagnostico: " + atencion.getDiagnostico() + "\n");
                 }
+            }
+            else
+                System.out.println("El paciente no tiene atenciones medicas registradas.");
             } 
-            else 
-                System.out.println("El paciente no tiene atenciones medicas");
-            } 
-        else {
-            System.out.println("Paciente no encontrado");
+        else 
+            System.out.println("El paciente no tiene atenciones medicas");
+    }
+    public void mostrarCamasExistentes(){
+        int cantCamas = listaCamas.size(),i;
+        if(cantCamas == 0){
+            System.out.println("No hay camas registradas.");
+            return;
+        }
+        System.out.println("Camas existentes:");
+        for(i=0;i<cantCamas;i++){
+             System.out.println("Cama numero: "+listaCamas.get(i).getNumCama());
+             System.out.println("Tipo de cama: "+listaCamas.get(i).getTipo());
+             if(listaCamas.get(i).getDisponible()){
+                 System.out.println("Disponibilidad: Desocupada\nasda");
+             }
+             else{
+                 System.out.println("Disponibilidad: Ocupada\n");
+             }  
+
         }
     }
     public void inicializarCamas() {

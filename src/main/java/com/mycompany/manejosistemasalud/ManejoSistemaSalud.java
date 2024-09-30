@@ -3,7 +3,6 @@
  */
 
 package com.mycompany.manejosistemasalud;
-
 /**
  *
  * @author 
@@ -13,6 +12,11 @@ import java.util.Scanner;
 
 public class ManejoSistemaSalud {
     public static void main(String[] args)throws IOException {
+        Hospital hospital = new Hospital();
+        Controlador controlador = new Controlador(hospital);
+    }
+}
+        /*
         Scanner scanner = new Scanner(System.in);
         String nombreHospital;
         System.out.println("Ingrese el nombre del hospital: ");
@@ -62,7 +66,7 @@ public class ManejoSistemaSalud {
                                 Paciente paciente = new Paciente(nombre,rut,edad,nivelGravedad);
                                 hospital.agregarPaciente(rut, paciente);
                                 System.out.println("El paciente fue registrado con exito");
-                                hospital.ubicarPacienteEnCama(paciente);                               
+                                hospital.ubicarPacienteEnCama(rut, nivelGravedad);                               
                                 break;
                             case 2:
                                 System.out.println("Ingrese el rut del paciente");
@@ -303,11 +307,14 @@ public class ManejoSistemaSalud {
                                 System.out.println("El paciente no esta registrado");
                                 break;
                             case 4:
+                                hospital.mostrarCamasExistentes();
+                                break;
+                            case 5:
                                 break;
                             default:
                                 System.out.println("Opcion no valida"); 
                         }
-                    }while(opti0n!=4);
+                    }while(opti0n!=5);
                     break;
                 case 5:
                     break;
@@ -352,7 +359,8 @@ public class ManejoSistemaSalud {
        System.out.println("1. Mostrar atencion medica");
        System.out.println("2. Mostrar todas las atenciones de paciente");
        System.out.println("3. Mostrar paciente");
-       System.out.println("4. Regresar al menu principal");
+       System.out.println("4. Mostrar camas existentes");
+       System.out.println("5. Regresar al menu principal");
    }
 }
-
+*/
