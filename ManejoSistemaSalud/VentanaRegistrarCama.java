@@ -123,7 +123,7 @@ public class VentanaRegistrarCama extends javax.swing.JFrame {
                 else{
                     controlador.registrarCama(numCama, tipo);
                     JOptionPane.showMessageDialog(this, "La cama fue registrada con éxito", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
-                    controlador.grabarDato(controlador.getDirectorio("cama"), numeroCama.getText()+";"+tipo+";"+true);
+                    controlador.grabarDato(controlador.getDirectorio("cama"), numeroCama.getText()+";"+tipo+";"+true+"\n");
                     controlador.mostrarVentanaPrincipal();
                     this.dispose();
                 }

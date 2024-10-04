@@ -10,6 +10,12 @@ public class Cama{
     this.tipo = tipo;
     this.disponible = disponible;
   }
+  public Cama(int numCama, String tipo,boolean disponible, String rutPacienteAsignado){
+    this.numCama = numCama;
+    this.tipo = tipo;
+    this.disponible = disponible;
+    this.rutPacienteAsignado = rutPacienteAsignado;
+  }
   
   //GETTERS
   public int getNumCama(){
@@ -44,9 +50,11 @@ public class Cama{
     this.rutPacienteAsignado = rutPacienteAsignado;
   }  
   //METODOS
+  //Asigna el rut pasado por parametro al rut de la clase
   public void asignarPaciente(String rut){
         rutPacienteAsignado = rut;
-    }
+  }
+  //Realiza lo mismo que el metodo anterior pero con el paciente por parametro
   public void asignarPaciente(Paciente paciente){
       rutPacienteAsignado = paciente.getRut();
   }

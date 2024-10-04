@@ -1,3 +1,5 @@
+import com.opencsv.exceptions.CsvValidationException;
+
 import javax.swing.JOptionPane;
 
 public class VentanaRegistrarMedico extends javax.swing.JFrame {
@@ -122,6 +124,7 @@ public class VentanaRegistrarMedico extends javax.swing.JFrame {
                         else{
                             String especialidadM = especialidad.getText();
                             controlador.registrarMedico(nombreM, rutM, especialidadM);
+                            controlador.grabarDato(controlador.getDirectorio("medicos"),nombreM+";"+rutM+";"+especialidadM+";"+true+"\n");
                             JOptionPane.showMessageDialog(this, "El médico fue registrado con éxito.", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                             controlador.mostrarVentanaPrincipal();
                             this.dispose();
@@ -131,6 +134,8 @@ public class VentanaRegistrarMedico extends javax.swing.JFrame {
             }
         } catch (RutInvalidoException e) {
         JOptionPane.showMessageDialog(this, e.getMessage(), "Error de RUT", JOptionPane.ERROR_MESSAGE);
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

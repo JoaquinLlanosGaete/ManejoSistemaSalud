@@ -46,14 +46,17 @@ public class Hospital {
         return null;
     }
     //METODOS
+    //Agrega un medico a la lista
     public void agregarMedico(Medico medico){
         if(!listaMedicos.contains(medico))
             listaMedicos.add(medico);
     }
+    //Elimina el registro de un medico con el medico como parametro
     public void eliminarMedico(Medico medico){
         if(listaMedicos.contains(medico))
             listaMedicos.remove(medico);
     }
+    //Elimina el registro de un medico con el medico como parametro
     public void eliminarMedico(String rut){
         int cantMedicos = listaMedicos.size(),i;
         for(i=0;i<cantMedicos;i++){
@@ -64,11 +67,12 @@ public class Hospital {
             }
         }        
     }
+    //agrega un paciente al mapa pacientes
     public void agregarPaciente(String rut,Paciente paciente){
         if(!mapaPacientes.containsKey(rut))
             mapaPacientes.put(rut,paciente);
     }
-    
+    //elimina un paciente del mapa
     public void eliminarPaciente(String rut){
         if(mapaPacientes.containsKey(rut)){
             mapaPacientes.remove(rut);
@@ -77,16 +81,18 @@ public class Hospital {
         }
         System.out.println("El rut del paciente ingresado no existe");
     }
+    //agrega cama a lista camas
     public void agregarCama(Cama cama){
         if(!listaCamas.contains(cama))
             listaCamas.add(cama);
     }
+    //elimina cama de lista camas
     public void eliminarCama(Cama cama){
         if(listaCamas.contains(cama)){
             listaCamas.remove(cama);
         }
     }
-    
+    //ubica un paciente en una cama disponible
     public void ubicarPacienteEnCama(String rut){
          int gravedad,cantCamas,i;
          Paciente paciente;
@@ -136,6 +142,7 @@ public class Hospital {
              }
          }
     }
+    //ubica paciente en cama disponible
     public boolean ubicarPacienteEnCama(String rut,int gravedad){
         int cantCamas,i; 
          if(!mapaPacientes.containsKey(rut)){
@@ -180,7 +187,8 @@ public class Hospital {
              return false;
          }
          return false;
-    }        
+    }
+    //ubica paciente en cama disponible con paciente como parametro
     public void ubicarPacienteEnCama(Paciente paciente){
          int gravedad,cantCamas,i;
          Paciente pacienteParaUbicar = paciente;
@@ -230,7 +238,7 @@ public class Hospital {
              }
          }
     }
-    
+    //reasigna paciente en otra cama
     public boolean reasignarPacienteEnCama(String rut,String tipoDeCamaAAsignar){
         Paciente paciente = mapaPacientes.get(rut);
         int cantCamas = listaCamas.size(),i;
@@ -255,7 +263,7 @@ public class Hospital {
             return false;
         }
     }
-    
+    //da el alta a paciente
     public void darAltaPaciente(String rut){
         int cantCamas,i;
         if(!mapaPacientes.containsKey(rut)){
@@ -272,11 +280,13 @@ public class Hospital {
         }
         System.out.println("El paciente fue dado de alta");
     }
+    //verifica que exista paciente
     public boolean existePaciente(String rut){
         if(mapaPacientes.containsKey(rut))
             return true;
         return false;
     }
+    //verifica que exista cama
     public boolean existeCama(int numeroCama){
         int cantCamas = listaCamas.size(),i;
         if(cantCamas == 0)
@@ -287,10 +297,12 @@ public class Hospital {
         }
         return false;
     }
+    //retorna una cama nueva
     public Cama crearCama(int numero, String tipo, boolean disponible){
         Cama cama = new Cama(numero,tipo,true);     
         return cama;
     }
+    //verifica existencia de medico
     public boolean existeMedico(String rut){
         int cantMedicos = listaMedicos.size(),i;
         for(i=0;i<cantMedicos;i++){
@@ -299,16 +311,20 @@ public class Hospital {
         }
         return false;
     }
+    //retorna un medico nuevo
     public Medico crearMedico(String nombre,String rut,String especialidad,Boolean disponibilidad){
         Medico medico = new Medico(nombre,rut,especialidad,disponibilidad);
         return medico;
     }
+    //agrega atencion medica a paciente
     public void agregarAtencionMedica(String rutPaciente,String fecha, String diagnostico){
         mapaPacientes.get(rutPaciente).agregarAtencionMedica(fecha, diagnostico);
     }
+    //agrega atencion medica a paciente
     public void agregarAtencionMedica(String rut, AtencionMedica atencion){
         mapaPacientes.get(rut).agregarAtencionMedica(atencion);
     }
+    //verifica que exista una atencion medica
     public boolean existeAtencionMedica(String rut, String fecha){
         int cantAtenciones = mapaPacientes.get(rut).getCantAtenciones();
         if(cantAtenciones == 0)
@@ -318,7 +334,8 @@ public class Hospital {
                 return true;
         }
         return false;
-    }   
+    }
+    //muestra por consola las atenciones de un paciente
     public void mostrarAtencionesPaciente(String rut){
         Paciente paciente = mapaPacientes.get(rut);
         if(paciente == null){
@@ -342,6 +359,7 @@ public class Hospital {
         else 
             System.out.println("El paciente no tiene atenciones medicas");
     }
+    //muestra las camas existentes
     public void mostrarCamasExistentes(){
         int cantCamas = listaCamas.size(),i;
         if(cantCamas == 0){
@@ -370,10 +388,10 @@ public class Hospital {
         listaCamas.add(new Cama(6,"intermedia",true));
     }
     public void inicializarPacientesConAtencionesMedicas() {
-        Paciente paciente1 = new Paciente("Carlos", "12345678", 30, 2);      
-        Paciente paciente2 = new Paciente("Maria", "87654321B", 25, 1);
-        Paciente paciente3 = new Paciente("Fernando", "12345673", 30, 2);      
-        Paciente paciente4 = new Paciente("Maria", "87654321a", 25, 1);
+        Paciente paciente1 = new Paciente("Carlos", "123456789", 30, 2);
+        Paciente paciente2 = new Paciente("Maria", "213456789", 25, 1);
+        Paciente paciente3 = new Paciente("Fernando", "897654357", 30, 2);
+        Paciente paciente4 = new Paciente("Maria", "908756432", 25, 1);
         
         paciente1.agregarAtencionMedica("01/02/2003","resfrio");
         paciente1.agregarAtencionMedica("02/04/2003","gripe");

@@ -124,6 +124,7 @@ public class VentanaRegistrarPaciente extends javax.swing.JFrame {
             } 
             else{
                 controlador.registrarPaciente(nombre, rut, edad);
+                controlador.grabarDato(controlador.getDirectorio("pacientes"),nombre+";"+rut+";"+edad+";"+0+"\n");
                 JOptionPane.showMessageDialog(this, "Paciente registrado exitosamente.", "NOTIFICACIÓN", JOptionPane.INFORMATION_MESSAGE);
                 controlador.mostrarVentanaPrincipal();
             }

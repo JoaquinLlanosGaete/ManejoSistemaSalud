@@ -1,3 +1,5 @@
+import com.opencsv.exceptions.CsvValidationException;
+
 import javax.swing.JOptionPane;
 
 public class VentanaEditarAt extends javax.swing.JFrame {
@@ -47,6 +49,11 @@ public class VentanaEditarAt extends javax.swing.JFrame {
         });
 
         jButton2.setText("Salir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,6 +145,8 @@ public class VentanaEditarAt extends javax.swing.JFrame {
                             if(!diagnostico.getText().isEmpty()){
                                 String diagnos = diagnostico.getText();
                                 controlador.modificarDiagnosticoAt(rutP, fecha, diagnos);
+                                controlador.eliminarDato(controlador.getDirectorio("atencion"),rutP);
+                                controlador.grabarDato(controlador.getDirectorio("atencion"),rutP+";"+fecha+";"+diagnos+"\n");
                                 JOptionPane.showMessageDialog(this, "Diagnóstico modificado con éxito", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                                 controlador.mostrarVentanaPrincipal();
                                 this.dispose();
@@ -163,9 +172,14 @@ public class VentanaEditarAt extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, e.getMessage(), "Error de RUT", JOptionPane.ERROR_MESSAGE);
     }catch(NumberFormatException e){
         JOptionPane.showMessageDialog(this, "Ingrese valores numéricos válidos para la fecha.", "Error de formato", JOptionPane.ERROR_MESSAGE);
-    }
+    } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        controlador.mostrarVentanaPrincipal();
+        this.dispose();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField año;
     private javax.swing.JTextField dia;

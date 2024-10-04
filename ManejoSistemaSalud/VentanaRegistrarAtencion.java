@@ -1,3 +1,5 @@
+import com.opencsv.exceptions.CsvValidationException;
+
 import javax.swing.JOptionPane;
 
 public class VentanaRegistrarAtencion extends javax.swing.JFrame {
@@ -139,6 +141,7 @@ public class VentanaRegistrarAtencion extends javax.swing.JFrame {
                 int day = Integer.parseInt(dia.getText());
                 int month = Integer.parseInt(mes.getText());
                 int year = Integer.parseInt(año.getText());
+                String fecha = String.format("%02d/%02d/%04d", day, month, year);
                 if(day<0 || day>32 || month<0 || month>12 || year<0 || year>9999){
                     JOptionPane.showMessageDialog(this, "Ingrese una fecha válida.", "Error de fecha.", JOptionPane.ERROR_MESSAGE);
                 }
@@ -154,6 +157,7 @@ public class VentanaRegistrarAtencion extends javax.swing.JFrame {
                         }
                         else{
                             controlador.registrarAtencionMedica(rutP, atencionNueva);
+                            controlador.grabarDato(controlador.getDirectorio("atencion"),rutP+";"+fecha+";"+diagnostic+"\n");
                             JOptionPane.showMessageDialog(this,"La atención fue registrada con éxito.","INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                             controlador.mostrarVentanaPrincipal();
                             this.dispose();
@@ -164,6 +168,8 @@ public class VentanaRegistrarAtencion extends javax.swing.JFrame {
         }        
         catch(RutInvalidoException e){
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error de RUT", JOptionPane.ERROR_MESSAGE);
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

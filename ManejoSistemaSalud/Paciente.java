@@ -21,6 +21,9 @@ public class Paciente{
         this.edad = edad;
         this.nivelGravedad = nivelGravedad;
 }
+    public void setListaAtencionesMedicas(List Atenciones){
+        this.listaAtencionesMedicas = Atenciones;
+    }
     //GETTERS
     public String getNombre(){
         return nombre;
@@ -70,18 +73,22 @@ public class Paciente{
         this.dadoDeAlta = alta;
     }
     //METODOS
+    //Valida que el rut tenga 9 digitos exactamente
     public boolean validarRut(String rut) {
         return rut.matches("\\d{9}");
     }
+    //agrega atencion medica a paciente
     public void agregarAtencionMedica(String fecha, String diagnostico){
         if(this.listaAtencionesMedicas == null){
             this.listaAtencionesMedicas = new ArrayList<>();
         }
         this.listaAtencionesMedicas.add(new AtencionMedica(fecha,diagnostico));
     }
+    //agrega atencion medica a paciente
     public void agregarAtencionMedica(AtencionMedica atencion){
         listaAtencionesMedicas.add(atencion);
     }
+    //verifica existencia de atencion
     public boolean existeAtencion(String fecha){
         int cantAtenciones = listaAtencionesMedicas.size();
         for(int i = 0;i<cantAtenciones;i++){
@@ -90,6 +97,7 @@ public class Paciente{
         }
         return false;
     }
+    //elimina atencion medica
     public void eliminarAtencionMedica(String fecha){
         int cantAtenciones =  listaAtencionesMedicas.size();
         for(int i = 0;i<cantAtenciones;i++){

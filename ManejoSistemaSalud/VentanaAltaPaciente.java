@@ -1,3 +1,5 @@
+import com.opencsv.exceptions.CsvValidationException;
+
 import javax.swing.JOptionPane;
 
 public class VentanaAltaPaciente extends javax.swing.JFrame {
@@ -77,7 +79,7 @@ public class VentanaAltaPaciente extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //Este boton tiene como objetivo dar de alta al paciente
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try{
         String rut = rutPaciente.getText().trim();        
@@ -94,6 +96,8 @@ public class VentanaAltaPaciente extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "Paciente ya se encuentra dado de Alta.", "NOTIFICACIÓN", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         controlador.darAltaPaciente(rut);
+                        controlador.eliminarDato(controlador.getDirectorio("pacientes"),rut);
+                        controlador.grabarDato(controlador.getDirectorio("pacientes"),rut);
                         JOptionPane.showMessageDialog(this, "Paciente dado de alta.", "NOTIFICACIÓN", JOptionPane.INFORMATION_MESSAGE);
                         controlador.mostrarVentanaPrincipal();
                         this.dispose();
@@ -106,9 +110,11 @@ public class VentanaAltaPaciente extends javax.swing.JFrame {
         }
     }catch(RutInvalidoException e){
         JOptionPane.showMessageDialog(this, e.getMessage(), "Error de RUT", JOptionPane.ERROR_MESSAGE);
-    }
+    } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    //Sale de la ventana actual y regresa a la ventana principal
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         controlador.mostrarVentanaPrincipal();
         this.dispose();

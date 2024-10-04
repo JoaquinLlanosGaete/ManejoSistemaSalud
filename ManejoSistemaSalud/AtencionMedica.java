@@ -18,9 +18,7 @@ public class AtencionMedica {
     public String getDiagnostico(){
         return diagnostico;
     }
-    public void setFecha(int dia,int mes,int año){
-        this.fecha = String.format("%02d/%02d/%04d", dia,mes,año);
-    }
+    //setea la fecha y le cambia el formato a DD/MM//AAAA
     public void setDiagnostico(String diagnostico){
         this.diagnostico = diagnostico;
     }

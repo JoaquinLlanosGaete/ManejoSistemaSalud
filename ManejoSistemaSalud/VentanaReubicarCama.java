@@ -1,3 +1,5 @@
+import com.opencsv.exceptions.CsvValidationException;
+
 import javax.swing.JOptionPane;
 
 public class VentanaReubicarCama extends javax.swing.JFrame {
@@ -112,6 +114,8 @@ public class VentanaReubicarCama extends javax.swing.JFrame {
                         int tipoGravedad = Integer.parseInt(gravedad.getText());
                         if(tipoGravedad == 1){
                             if(controlador.reubicarPaciente(rut, tipoGravedad)) {
+                                controlador.eliminarDato(controlador.getDirectorio("cama"),rut);
+                              //  controlador.grabarDato(controlador.getDirectorio("cama"),controlador.getListaCamas().set()+";"+fecha+";"+diagnos+"\n");
                                 JOptionPane.showMessageDialog(this, "El paciente fue reubicado en una cama de tipo general.", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                                 controlador.mostrarVentanaPrincipal();
                                 this.dispose();
@@ -155,7 +159,9 @@ public class VentanaReubicarCama extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, e.getMessage(), "Error de RUT", JOptionPane.ERROR_MESSAGE);
     }catch(NumberFormatException e){
         JOptionPane.showMessageDialog(this, "Ingrese un valor numérico válido para la gravedad.", "Error de formato", JOptionPane.ERROR_MESSAGE);
-    }
+    } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

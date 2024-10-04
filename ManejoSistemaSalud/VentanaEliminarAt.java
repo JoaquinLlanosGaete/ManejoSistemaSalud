@@ -1,3 +1,5 @@
+import com.opencsv.exceptions.CsvValidationException;
+
 import javax.swing.JOptionPane;
 
 public class VentanaEliminarAt extends javax.swing.JFrame {
@@ -41,6 +43,11 @@ public class VentanaEliminarAt extends javax.swing.JFrame {
         });
 
         jButton2.setText("Salir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("/");
 
@@ -125,6 +132,7 @@ public class VentanaEliminarAt extends javax.swing.JFrame {
                         String fecha = String.format("%02d/%02d/%04d", diaF, mesF, añoF);
                         if(controlador.existeAtencionMedica(rutP, fecha)){
                             controlador.eliminarAtencionMedica(rutP, fecha);
+                            controlador.eliminarDato(controlador.getDirectorio("atencion"),rutP);
                             JOptionPane.showMessageDialog(this, "Atención médica eliminada con éxito", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                             controlador.mostrarVentanaPrincipal();
                             this.dispose();
@@ -144,9 +152,14 @@ public class VentanaEliminarAt extends javax.swing.JFrame {
         }
     }catch(RutInvalidoException e){
         JOptionPane.showMessageDialog(this, e.getMessage(), "Error de RUT", JOptionPane.ERROR_MESSAGE);
-    }
+    } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        controlador.mostrarVentanaPrincipal();
+        this.dispose();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField año;
     private javax.swing.JTextField dia;
