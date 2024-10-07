@@ -1,3 +1,5 @@
+import com.opencsv.exceptions.CsvValidationException;
+
 import javax.swing.JOptionPane;
 
 public class VentanaAsignarCama extends javax.swing.JFrame {
@@ -124,9 +126,23 @@ public class VentanaAsignarCama extends javax.swing.JFrame {
                     botones.add(general);
                     botones.add(intensiva);
                     botones.add(intermedia);
+                    for(int i = 0;i<controlador.getListaCamas().size();i++) {
+                        if (controlador.getListaCamas().get(i).getPacienteAsignado() != null) {
+                            if (rut.equalsIgnoreCase(controlador.getListaCamas().get(i).getPacienteAsignado())) {
+                                JOptionPane.showMessageDialog(this, "El paciente ya se encuentra asignado a una cama.", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                                controlador.mostrarVentanaAsignarCama();
+                                this.dispose();
+                                return;
+                            }
+                        }
+                    }
+                    String numero;
                     if(general.isSelected()){
                         if (controlador.asignarCama(rut, 1)){
+                            numero = String.valueOf(controlador.buscarCama(rut).getNumCama());
                             JOptionPane.showMessageDialog(this, "El paciente ha sido asignado a una cama de tipo general.", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                            controlador.eliminarDato(controlador.getDirectorio("cama"),numero);
+                            controlador.grabarDato(controlador.getDirectorio("cama"),controlador.buscarCama(rut).getNumCama()+";"+controlador.buscarCama(rut).getTipo()+";"+controlador.buscarCama(rut).getDisponible()+";"+controlador.buscarCama(rut).getPacienteAsignado());
                             controlador.mostrarVentanaPrincipal();
                             this.dispose();
                         }
@@ -136,7 +152,10 @@ public class VentanaAsignarCama extends javax.swing.JFrame {
                     }
                     if(intermedia.isSelected()){
                         if(controlador.asignarCama(rut, 2)){
+                            numero = String.valueOf(controlador.buscarCama(rut).getNumCama());
                             JOptionPane.showMessageDialog(this, "El paciente ha sido asignado a una cama de tipo intermedia.", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                            controlador.eliminarDato(controlador.getDirectorio("cama"),numero);
+                            controlador.grabarDato(controlador.getDirectorio("cama"),controlador.buscarCama(rut).getNumCama()+";"+controlador.buscarCama(rut).getTipo()+";"+controlador.buscarCama(rut).getDisponible()+";"+controlador.buscarCama(rut).getPacienteAsignado());
                             controlador.mostrarVentanaPrincipal();
                             this.dispose();
                         }
@@ -146,16 +165,16 @@ public class VentanaAsignarCama extends javax.swing.JFrame {
                     }
                     if(intensiva.isSelected()){
                         if(controlador.asignarCama(rut, 3)){
+                            numero = String.valueOf(controlador.buscarCama(rut).getNumCama());
                             JOptionPane.showMessageDialog(this, "El paciente ha sido asignado a una cama de tipo intensiva.", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                            controlador.eliminarDato(controlador.getDirectorio("cama"),numero);
+                            controlador.grabarDato(controlador.getDirectorio("cama"),controlador.buscarCama(rut).getNumCama()+";"+controlador.buscarCama(rut).getTipo()+";"+controlador.buscarCama(rut).getDisponible()+";"+controlador.buscarCama(rut).getPacienteAsignado());
                             controlador.mostrarVentanaPrincipal();
                             this.dispose();
                         }
                         else{
                             JOptionPane.showMessageDialog(this, "No hay camas disponibles de tipo intensiva, el paciente tiene prioridad, será atendido lo antes posible.", "ALERTA", JOptionPane.WARNING_MESSAGE);
                         }
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(this, "No se ha ingresado gravedad.", "ALERTA", JOptionPane.WARNING_MESSAGE);
                     }
                 }
                 else{
@@ -165,7 +184,9 @@ public class VentanaAsignarCama extends javax.swing.JFrame {
         }
     }catch(RutInvalidoException e){
         JOptionPane.showMessageDialog(this, e.getMessage(), "Error de RUT", JOptionPane.ERROR_MESSAGE);
-    }
+    } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

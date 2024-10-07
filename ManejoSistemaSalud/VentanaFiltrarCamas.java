@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -121,69 +120,76 @@ public class VentanaFiltrarCamas extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         // Limpiar la tabla actual
-    String[] columnNames = {"Número", "Tipo", "Disponibilidad"};
-    DefaultTableModel modeloTabla = new DefaultTableModel(columnNames, 0) {
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false; // Hacer que la tabla no sea editable
+        String[] columnNames = {"n°","Número", "Tipo", "Disponibilidad"};
+        DefaultTableModel modeloTabla = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Hacer que la tabla no sea editable
+            }
+        };
+        JTable tablaCamas = new JTable(modeloTabla);
+        tablaCamas.setFillsViewportHeight(true);
+        JScrollPane scrollPane = new JScrollPane(tablaCamas);
+
+        // Ajustar el ancho de las columnas
+        TableColumnModel columnModel = tablaCamas.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(3);
+        columnModel.getColumn(1).setPreferredWidth(50);  // Número de cama
+        columnModel.getColumn(2).setPreferredWidth(50); // Tipo de cama
+        columnModel.getColumn(3).setPreferredWidth(50); // Disponibilidad
+
+        // Centrar el texto dentro de las celdas
+        DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
+        centrado.setHorizontalAlignment(SwingConstants.CENTER);  // Centrado horizontal
+        centrado.setVerticalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < tablaCamas.getColumnCount(); i++) {
+            tablaCamas.getColumnModel().getColumn(i).setCellRenderer(centrado);
         }
-    };
-    JTable tablaCamas = new JTable(modeloTabla);
-    tablaCamas.setFillsViewportHeight(true);
-    JScrollPane scrollPane = new JScrollPane(tablaCamas);
 
-    TableColumnModel columnModel = tablaCamas.getColumnModel();
-    columnModel.getColumn(0).setPreferredWidth(50);  // Numero
-    columnModel.getColumn(1).setPreferredWidth(100); // Tipo
-    columnModel.getColumn(2).setPreferredWidth(100); // Disponibilidad
-    modeloTabla.setRowCount(0);
+        // Limpiar el modelo de la tabla
+        modeloTabla.setRowCount(0);
 
-    List<Cama> listaCamas = controlador.getListaCamas();
-    List<String> tiposSeleccionados = new ArrayList<>();
-    List<String> disponibilidadSeleccionada = new ArrayList<>();
+        // Obtener las listas de camas y los filtros seleccionados
+        List<Cama> listaCamas = controlador.getListaCamas();
+        List<String> tiposSeleccionados = new ArrayList<>();
+        List<String> disponibilidadSeleccionada = new ArrayList<>();
 
-    if (general.isSelected()) tiposSeleccionados.add("general");
-    if (intermedia.isSelected()) tiposSeleccionados.add("intermedia");
-    if (intensiva.isSelected()) tiposSeleccionados.add("intensiva");
+        // Agregar filtros seleccionados
+        if (general.isSelected()) tiposSeleccionados.add("general");
+        if (intermedia.isSelected()) tiposSeleccionados.add("intermedia");
+        if (intensiva.isSelected()) tiposSeleccionados.add("intensiva");
 
-    if (disponible.isSelected()) disponibilidadSeleccionada.add("disponible");
-    if (ocupada.isSelected()) disponibilidadSeleccionada.add("ocupada");
+        if (disponible.isSelected()) disponibilidadSeleccionada.add("disponible");
+        if (ocupada.isSelected()) disponibilidadSeleccionada.add("ocupada");
+        int i = 0;
+        // Filtrar y agregar camas al modelo de la tabla
+        for (Cama cama : listaCamas) {
+            boolean cumpleTipo = tiposSeleccionados.isEmpty() || tiposSeleccionados.contains(cama.getTipo());
+            boolean cumpleDisponibilidad = disponibilidadSeleccionada.isEmpty() || (cama.getDisponible() && disponibilidadSeleccionada.contains("disponible")) || (!cama.getDisponible() && disponibilidadSeleccionada.contains("ocupada"));
 
-    // Construir el mensaje para JOptionPane
-    StringBuilder mensaje = new StringBuilder("Camas filtradas:\n");
+            if (cumpleTipo && cumpleDisponibilidad) {
+                i++;
+                modeloTabla.addRow(new Object[] {
+                        i,
+                        cama.getNumCama(),
+                        cama.getTipo(),
+                        cama.getDisponible() ? "Disponible" : "Ocupada"
+                });
+            }
+        }
 
-    // Filtrar y agregar las camas a la tabla
-    for (Cama cama : listaCamas) {
-        boolean cumpleTipo = tiposSeleccionados.isEmpty() || 
-                            tiposSeleccionados.contains(cama.getTipo());
-        boolean cumpleDisponibilidad = disponibilidadSeleccionada.isEmpty() || 
-            (cama.getDisponible() && disponibilidadSeleccionada.contains("disponible")) ||
-            (!cama.getDisponible() && disponibilidadSeleccionada.contains("ocupada"));
+        // Si no se encontraron resultados, añadir una fila indicando "No se encontraron camas"
+        if (modeloTabla.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No se encontraron resultados", "Error al filtrar", JOptionPane.ERROR_MESSAGE);
+        }else {
 
-        if (cumpleTipo && cumpleDisponibilidad) {
-            modeloTabla.addRow(new Object[]{
-                cama.getNumCama(),
-                cama.getTipo(),
-                cama.getDisponible() ? "Disponible" : "Ocupada"
-            });
-            // Añadir información de la cama al mensaje
-            mensaje.append("Número: ").append(cama.getNumCama())
-                   .append(", Tipo: ").append(cama.getTipo())
-                   .append(", Disponibilidad: ").append(cama.getDisponible() ? "Disponible" : "Ocupada")
-                   .append("\n");
+            // Mostrar la tabla con los datos filtrados en un JOptionPane
+            JOptionPane.showMessageDialog(this, scrollPane, "Resultados de la Búsqueda", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
-    if (modeloTabla.getRowCount() == 0) {
-        modeloTabla.addRow(new Object[]{"No se encontraron camas", "", ""});
-        mensaje.append("No se encontraron camas con los filtros seleccionados.");
-    }
-
-    // Mostrar el mensaje en un JOptionPane
-    JOptionPane.showMessageDialog(this, mensaje.toString(), "Resultado de Búsqueda", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox disponible;

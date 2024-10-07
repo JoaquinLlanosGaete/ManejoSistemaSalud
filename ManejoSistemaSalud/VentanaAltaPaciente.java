@@ -97,7 +97,10 @@ public class VentanaAltaPaciente extends javax.swing.JFrame {
                     } else {
                         controlador.darAltaPaciente(rut);
                         controlador.eliminarDato(controlador.getDirectorio("pacientes"),rut);
-                        controlador.grabarDato(controlador.getDirectorio("pacientes"),rut);
+                        controlador.grabarDato(controlador.getDirectorio("pacientes"),controlador.getPaciente(rut).getNombre()+";"+controlador.getPaciente(rut).getRut()+";"+controlador.getPaciente(rut).getEdad()+";"+0);
+                        controlador.eliminarDato(controlador.getDirectorio("cama"),rut);
+                        controlador.grabarDato(controlador.getDirectorio("cama"),controlador.buscarCama(rut).getNumCama()+";"+controlador.buscarCama(rut).getTipo()+";"+true);
+
                         JOptionPane.showMessageDialog(this, "Paciente dado de alta.", "NOTIFICACIÓN", JOptionPane.INFORMATION_MESSAGE);
                         controlador.mostrarVentanaPrincipal();
                         this.dispose();

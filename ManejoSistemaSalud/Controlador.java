@@ -170,6 +170,10 @@ public class Controlador {
         int cant = hospital.getCantCamas();
         return cant;
     }
+    public List<Medico> getListaMedicos(){
+        List <Medico> lista = hospital.getListaMedicos();
+        return lista;
+    }
     //retorna la lista de camas del hospital
     public List<Cama> getListaCamas(){
         List<Cama> lista = hospital.getListaCamas();
@@ -240,6 +244,12 @@ public class Controlador {
         Cama cama = hospital.getCama(numCama);
         hospital.eliminarCama(cama);
     }
+    public Cama buscarCama(String rut){
+        return hospital.buscarCama(rut);
+    }
+    public Cama buscarCama(int numCama){
+        return hospital.buscarCama(numCama);
+    }
     //verifica que exista una cama
     public boolean existeCama(int numCama){
         if(hospital.existeCama(numCama)){
@@ -303,8 +313,8 @@ public class Controlador {
         hospital.agregarAtencionMedica(rut,atencion);
     }
     //Registra un paciente
-    public void registrarPaciente(String nombre,String rut, int edad){
-        Paciente paciente = new Paciente(nombre, rut, edad);
+    public void registrarPaciente(String nombre,String rut, int edad, int gravedad){
+        Paciente paciente = new Paciente(nombre, rut, edad, gravedad);
         hospital.agregarPaciente(rut, paciente);
     }
     //Verifica existencia de paciente
@@ -350,7 +360,7 @@ public class Controlador {
     //Carga la lista de camas desde el csv
     public void cargarCamas(File arch) {
         List <Cama> camas = new ArrayList<>();
-        String separador = ";";  // Separador de columnas en el CSV
+        String separador = ";";
 
         try (BufferedReader br = new BufferedReader(new FileReader(arch))) {
             String linea;
@@ -363,7 +373,7 @@ public class Controlador {
 ;                if (nextLine.length >= 3) {
                     try {
                         disponible = Boolean.parseBoolean(nextLine[2]);
-                        if(Boolean.parseBoolean(nextLine[2]) && nextLine.length==4){
+                        if(nextLine.length==4){
                             rut = nextLine[3];
                         }
                     } catch (NumberFormatException e) {
@@ -376,9 +386,13 @@ public class Controlador {
         } catch (IOException ignored) {
         }
         System.out.println("CAMAS CARGADAS\n--------------");
-        for(Cama c: camas){
-            System.out.println("Tipo cama: " + c.getTipo() + " Nro de Cama: " + c.getNumCama() + " Disponibilidad: " + (c.getDisponible() ? "Sí" : "No"));
+        if(camas.isEmpty()){
+            System.out.println("NO EXISTEN CAMAS EN LA BD.");
         }
+        for(Cama c: camas){
+            System.out.println("Tipo cama: " + c.getTipo() + " Nro de Cama: " + c.getNumCama() + " Disponibilidad: " + (c.getDisponible() ? "Sí" : "No "+ "Rut Asignado: "+c.getPacienteAsignado()));
+        }
+
         hospital.setListaCamas(camas);
 
     }
@@ -386,7 +400,6 @@ public class Controlador {
     public void cargarMedicos(File arch) {
         List <Medico> medicos = new ArrayList<>();
         String separador = ";";
-
         try (BufferedReader br = new BufferedReader(new FileReader(arch))) {
             String linea;
             while ((linea = br.readLine()) != null) {
@@ -403,8 +416,11 @@ public class Controlador {
         } catch (IOException ignored) {
         }
         System.out.println("MEDICOS CARGADOS\n--------------");
+        if(medicos.isEmpty()){
+            System.out.println("NO EXISTEN MEDICOS EN LA BD.");
+        }
         for(Medico c: medicos){
-            System.out.println("Nombre: " + c.getNombre() + " Rut: " + c.getRut() + " Especialidad: " + c.getEspecialidad() + " Disponibilidad: " + (c.getDisponibilidad() ? "Sí" : "No"));
+            System.out.println("Nombre: " + c.getNombre() + " Rut: " + c.getRut() + " Especialidad: " + c.getEspecialidad() + " Disponibilidad: " + (c.getDisponibilidad() ? "Sí" : "No")+ "\n");
         }
         hospital.setListaMedicos(medicos);
     }
@@ -435,9 +451,11 @@ public class Controlador {
         }catch(IOException ignored){
         }
         System.out.println("PACIENTES CARGADOS\n--------------");
-
+        if(mapa.isEmpty()){
+            System.out.println("NO EXISTEN PACIENTES EN LA BD.");
+        }
         for(Map.Entry<String, Paciente> c: mapa.entrySet()){
-            System.out.println("Nombre: " + c.getValue().getNombre() + " Rut: " + c.getValue().getRut() + " Edad: " + c.getValue().getEdad() + " Gravedad: " + c.getValue().getGravedad());
+            System.out.println("Nombre: " + c.getValue().getNombre() + " Rut: " + c.getValue().getRut() + " Edad: " + c.getValue().getEdad() + " Gravedad: " + c.getValue().getGravedad()+ "\n");
         }
         hospital.setListaPacientes(mapa);
     }
@@ -458,36 +476,47 @@ public class Controlador {
 
         } catch (IOException ignored) {
         }
-
     }
     //Elimina un dato del CSV
-    public void eliminarDato(File arch, String criterio) throws CsvValidationException{
+    public void eliminarDato(File arch, String criterio) throws CsvValidationException {
         List<String> lineasFiltradas = new ArrayList<>();
-        try(BufferedReader br = new BufferedReader(new FileReader(arch))){
+        try (BufferedReader br = new BufferedReader(new FileReader(arch))) {
             String linea;
-            while((linea = br.readLine()) != null){
-                if(!linea.contains(criterio)){
+
+            // Leer cada línea del archivo CSV
+            while ((linea = br.readLine()) != null) {
+                String[] columnas = linea.split(";");
+
+                boolean coincide = false;
+                for (String columna : columnas) {
+                    if (columna.equals(criterio)) {
+                        coincide = true;
+                        break;
+                    }
+                }
+                if (!coincide) {
                     lineasFiltradas.add(linea);
                 }
             }
-            try(BufferedWriter bw = new BufferedWriter(new FileWriter(arch))){
-                for(String l : lineasFiltradas){
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(arch, false))) {
+                for (String l : lineasFiltradas) {
                     bw.write(l);
                     bw.newLine();
                 }
             }
 
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     //graba un dato en el CSV
     public void grabarDato(File arch, String criterio) throws CsvValidationException{
 
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(arch, true))){
             bw.write(criterio);
             bw.newLine();
-            System.out.println("Línea agregada correctamente.");
+            System.out.println(criterio);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 public class VentanaCama extends javax.swing.JFrame {
         private Controlador controlador;
     public VentanaCama(Controlador controlador) {
@@ -97,8 +99,12 @@ public class VentanaCama extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        controlador.mostrarVentanaAsignarCama();
-        this.dispose();
+        if(controlador.getListaCamas().isEmpty()){
+            JOptionPane.showMessageDialog(this, "No existen camas de ningún tipo.", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }else {
+            controlador.mostrarVentanaAsignarCama();
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -107,8 +113,12 @@ public class VentanaCama extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        controlador.mostrarVentanaReubicarCama();
-        this.dispose();
+        if(controlador.getListaCamas().isEmpty()){
+            JOptionPane.showMessageDialog(this, "No existen camas de ningún tipo.", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }else {
+            controlador.mostrarVentanaReubicarCama();
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -117,8 +127,12 @@ public class VentanaCama extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if(controlador.getListaCamas().isEmpty()){
+            JOptionPane.showMessageDialog(this, "No existen camas de ningún tipo.", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }else {
         controlador.mostrarVentanaEliminarCama();
         this.dispose();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

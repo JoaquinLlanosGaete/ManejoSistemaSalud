@@ -90,9 +90,16 @@ public class VentanaEliminarPaciente extends javax.swing.JFrame {
             }
             else{
                 if(controlador.existePaciente(rut)){
-                    controlador.eliminarPaciente(rut);
                     JOptionPane.showMessageDialog(this, "Paciente eliminado con éxito.", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                     controlador.eliminarDato(controlador.getDirectorio("pacientes"), rut );
+                    controlador.eliminarDato(controlador.getDirectorio("cama"),rut);
+                    if(controlador.getCantAtenciones(rut)>0){
+                        controlador.eliminarDato(controlador.getDirectorio("atencion"),rut);
+                    }
+                    if(controlador.buscarCama(rut)!=null) {
+                        controlador.grabarDato(controlador.getDirectorio("cama"), controlador.buscarCama(rut).getNumCama() + ";" + controlador.buscarCama(rut).getTipo() + ";" + true);
+                    }
+                    controlador.eliminarPaciente(rut);
                     controlador.mostrarVentanaPrincipal();
                     this.dispose();
                 }

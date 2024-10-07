@@ -30,11 +30,6 @@ public class Cama{
   public String getPacienteAsignado(){
     return rutPacienteAsignado;
   }
-  public String getDisponibilidadSiNo(){
-      if(disponible == true)
-          return "Si";
-      return "No";
-  }
   
   //SETTERS
   public void setNumCama(int numCama){

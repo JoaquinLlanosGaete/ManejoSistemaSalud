@@ -86,7 +86,7 @@ public class VentanaEliminarCama extends javax.swing.JFrame {
         }
         else{
             int numCama = Integer.parseInt(numeroCama.getText());
-            if(controlador.existeCama(numCama)){
+            if(controlador.existeCama(numCama)&&controlador.buscarCama(numCama).getDisponible()){
                 controlador.eliminarCama(numCama);
                 controlador.eliminarDato(controlador.getDirectorio("cama"), numeroCama.getText());
                 JOptionPane.showMessageDialog(this, "Cama eliminada con éxito", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
@@ -94,7 +94,7 @@ public class VentanaEliminarCama extends javax.swing.JFrame {
                 this.dispose();
             }
             else{
-                JOptionPane.showMessageDialog(this, "La cama no existe.", "ALERTA", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La cama se encuentra ocupada o no existe.", "ALERTA", JOptionPane.WARNING_MESSAGE);
             }
         }
     }catch(NumberFormatException | CsvValidationException e){

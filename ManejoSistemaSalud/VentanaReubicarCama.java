@@ -99,6 +99,7 @@ public class VentanaReubicarCama extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String numero;
         try{
         String rut = rutPaciente.getText().trim();
         if(rut.isEmpty()){
@@ -114,8 +115,9 @@ public class VentanaReubicarCama extends javax.swing.JFrame {
                         int tipoGravedad = Integer.parseInt(gravedad.getText());
                         if(tipoGravedad == 1){
                             if(controlador.reubicarPaciente(rut, tipoGravedad)) {
-                                controlador.eliminarDato(controlador.getDirectorio("cama"),rut);
-                              //  controlador.grabarDato(controlador.getDirectorio("cama"),controlador.getListaCamas().set()+";"+fecha+";"+diagnos+"\n");
+                                numero = String.valueOf(controlador.buscarCama(rut).getNumCama());
+                                controlador.eliminarDato(controlador.getDirectorio("cama"),numero);
+                                controlador.grabarDato(controlador.getDirectorio("cama"),controlador.buscarCama(rut).getNumCama()+";"+controlador.buscarCama(rut).getTipo()+";"+controlador.buscarCama(rut).getDisponible()+";"+controlador.buscarCama(rut).getPacienteAsignado());
                                 JOptionPane.showMessageDialog(this, "El paciente fue reubicado en una cama de tipo general.", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                                 controlador.mostrarVentanaPrincipal();
                                 this.dispose();
@@ -125,6 +127,9 @@ public class VentanaReubicarCama extends javax.swing.JFrame {
                             }
                         }if(tipoGravedad == 2){
                             if(controlador.reubicarPaciente(rut, tipoGravedad)){
+                                numero = String.valueOf(controlador.buscarCama(rut).getNumCama());
+                                controlador.eliminarDato(controlador.getDirectorio("cama"),numero);
+                                controlador.grabarDato(controlador.getDirectorio("cama"),controlador.buscarCama(rut).getNumCama()+";"+controlador.buscarCama(rut).getTipo()+";"+controlador.buscarCama(rut).getDisponible()+";"+controlador.buscarCama(rut).getPacienteAsignado());
                                 JOptionPane.showMessageDialog(this, "El paciente fue reubicado en una cama de tipo intermedia.", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                                 controlador.mostrarVentanaPrincipal();
                                 this.dispose();
@@ -134,6 +139,9 @@ public class VentanaReubicarCama extends javax.swing.JFrame {
                             }
                         }if(tipoGravedad == 3){
                             if(controlador.reubicarPaciente(rut, tipoGravedad)){
+                                numero = String.valueOf(controlador.buscarCama(rut).getNumCama());
+                                controlador.eliminarDato(controlador.getDirectorio("cama"),numero);
+                                controlador.grabarDato(controlador.getDirectorio("cama"),controlador.buscarCama(rut).getNumCama()+";"+controlador.buscarCama(rut).getTipo()+";"+controlador.buscarCama(rut).getDisponible()+";"+controlador.buscarCama(rut).getPacienteAsignado());
                                 JOptionPane.showMessageDialog(this, "El paciente fue reubicado en una cama de tipo intensiva.", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                                 controlador.mostrarVentanaPrincipal();
                                 this.dispose();
@@ -142,7 +150,7 @@ public class VentanaReubicarCama extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "No hay camas disponibles para el paciente.", "ALERTA", JOptionPane.WARNING_MESSAGE);
                             }
                         }
-                        else{
+                        if(tipoGravedad<1||tipoGravedad>3){
                             JOptionPane.showMessageDialog(this, "Tipo de gravedad no válido.", "ALERTA", JOptionPane.WARNING_MESSAGE);
                         }
                     }

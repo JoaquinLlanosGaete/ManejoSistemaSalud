@@ -105,14 +105,22 @@ public class VentanaMostrarCamas extends javax.swing.JFrame{
                             fila[2] = "Sin información";
                         }
                         if(fila.length == 3){
+                            if(Boolean.parseBoolean(fila[2])) {
+                                fila[2] = "Disponible";
+                            }else{
+                                fila[2] = "En uso";
+                            }
+                            fila = Arrays.copyOf(fila, fila.length + 1);
+                            fila[3] = "Sin información";
+                        }
+                        else{
                             if(Boolean.parseBoolean(fila[2])){
                                 fila[2] = "Disponible";
                             }
-                            else{
-                                fila[2] = "En uso";
+                            if(!Boolean.parseBoolean(fila[2])){
+                                fila[2] = "En uso ->";
                             }
-                            fila = Arrays.copyOf(fila, fila.length + 2);
-                            fila[3] = "Sin información";
+                            fila[3] = fila[3].substring(0,fila[3].length()-1).replaceAll("\\B(?=(\\d{3})+(?!\\d))", ".")+"-"+fila[3].substring(fila[3].length()-1);
                         }
                         modeloTabla.addRow(fila);
                     }

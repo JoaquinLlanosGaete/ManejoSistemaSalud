@@ -124,7 +124,7 @@ public class VentanaRegistrarMedico extends javax.swing.JFrame {
                         else{
                             String especialidadM = especialidad.getText();
                             controlador.registrarMedico(nombreM, rutM, especialidadM);
-                            controlador.grabarDato(controlador.getDirectorio("medicos"),nombreM+";"+rutM+";"+especialidadM+";"+true+"\n");
+                            controlador.grabarDato(controlador.getDirectorio("medicos"),nombreM+";"+rutM+";"+especialidadM+";"+true);
                             JOptionPane.showMessageDialog(this, "El médico fue registrado con éxito.", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                             controlador.mostrarVentanaPrincipal();
                             this.dispose();

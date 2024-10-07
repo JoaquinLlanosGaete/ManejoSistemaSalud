@@ -92,6 +92,9 @@ public class Hospital {
             listaCamas.remove(cama);
         }
     }
+    public List<Medico> getListaMedicos(){
+        return listaMedicos;
+    }
     //ubica un paciente en una cama disponible
     public void ubicarPacienteEnCama(String rut){
          int gravedad,cantCamas,i;
@@ -237,6 +240,22 @@ public class Hospital {
                  System.out.println("No hay camas intensivas disponibles, el paciente tendrá la mayor prioridad");
              }
          }
+    }
+    public Cama buscarCama(String rut){
+        for (Cama listaCama : listaCamas) {
+            if (listaCama.getPacienteAsignado().equals(rut)) {
+                return listaCama;
+            }
+        }
+        return null;
+    }
+    public Cama buscarCama(int num){
+        for (Cama listaCama : listaCamas){
+            if (listaCama.getNumCama()==num){
+                return listaCama;
+            }
+        }
+        return null;
     }
     //reasigna paciente en otra cama
     public boolean reasignarPacienteEnCama(String rut,String tipoDeCamaAAsignar){

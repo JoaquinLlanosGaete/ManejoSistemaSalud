@@ -7,7 +7,7 @@ public class Paciente{
     private int edad;
     private int nivelGravedad;//de 1 a 3, 0 no se encuentra en asistencia
     private boolean dadoDeAlta;
-    private List<AtencionMedica> listaAtencionesMedicas;
+    private List<AtencionMedica> listaAtencionesMedicas = new ArrayList<>();
     
     //CONSTRUCTORES
     public Paciente(String nombre,String rut,int edad){

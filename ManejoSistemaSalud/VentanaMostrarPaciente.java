@@ -30,6 +30,11 @@ public class VentanaMostrarPaciente extends javax.swing.JFrame {
         });
 
         jButton2.setText("Salir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,7 +88,7 @@ public class VentanaMostrarPaciente extends javax.swing.JFrame {
                 else{
                     if(controlador.existePaciente(rutP)){
                         Paciente paciente = controlador.getPaciente(rutP);
-                        JOptionPane.showMessageDialog(this, "Paciente:\nNombre: " + paciente.getNombre() + "\nRUT: " + paciente.getRut() + "\nEdad: " + paciente.getEdad(), "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Paciente:\nNombre: " + paciente.getNombre() + "\nRUT: " + paciente.getRut().substring(0,paciente.getRut().length()-1).replaceAll("\\B(?=(\\d{3})+(?!\\d))", ".")+"-"+paciente.getRut().substring(paciente.getRut().length()-1) + "\nEdad: " + paciente.getEdad(), "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                         controlador.mostrarVentanaPrincipal();
                         this.dispose();
                     }
@@ -96,6 +101,10 @@ public class VentanaMostrarPaciente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error de RUT", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        controlador.mostrarVentanaPrincipal();
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -50,6 +50,7 @@ public class VentanaRegistrarAtencion extends javax.swing.JFrame {
             }
         });
 
+
         jButton2.setText("Salir");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,7 +158,7 @@ public class VentanaRegistrarAtencion extends javax.swing.JFrame {
                         }
                         else{
                             controlador.registrarAtencionMedica(rutP, atencionNueva);
-                            controlador.grabarDato(controlador.getDirectorio("atencion"),rutP+";"+fecha+";"+diagnostic+"\n");
+                            controlador.grabarDato(controlador.getDirectorio("atencion"),rutP+";"+fecha+";"+diagnostic);
                             JOptionPane.showMessageDialog(this,"La atención fue registrada con éxito.","INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                             controlador.mostrarVentanaPrincipal();
                             this.dispose();
